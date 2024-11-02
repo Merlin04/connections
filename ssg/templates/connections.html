@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="title">{{ section.title }}</h1>
+<div class="posts">
+  {% for page in paginator.pages %}
+  <article class="post">
+    <span class="summary">{{ page.summary | safe }}</span>
+    <span class="by">
+      <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
+    </span>
+  </article>
+  <div class="fleuron"><img src="/fonts/fleuron.svg" alt="" /></div>
+  {% endfor %}
+</div>
+<nav class="pagination">
+  {% if paginator.previous %}
+  <a class="previous" href="{{ paginator.previous }}">‹ Previous</a>
+  {% endif %} {% if paginator.next %}
+  <a class="next" href="{{ paginator.next }}">Next ›</a>
+  {% endif %}
+</nav>
+{% endblock content %}

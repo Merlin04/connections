@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="title">{{ page.date | safe }}</h1>
+
+<article class="post">
+  <span class="summary">{{ page.content | safe }}</span>
+  <span class="by">
+    <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
+  </span>
+</article>
+{% endblock content %}
