@@ -77,9 +77,13 @@
 <!--                </form>-->
 <!--            </div>-->
             <div>
-                <form method="GET" action="{{.ProxyPrefix}}/sign_in">
-                    <input type="hidden" name="rd" value="{{.Redirect}}">
-                    <button type="submit" class="button">Sign in</button>
+<!--                <form method="GET" action="{{.ProxyPrefix}}/sign_in">-->
+<!--                    <input type="hidden" name="rd" value="{{.Redirect}}">-->
+<!--                    <button type="submit" class="button">Sign in</button>-->
+<!--                </form>-->
+                <form method="GET" action="{{.ProxyPrefix}}/start">
+                    <input type="hidden" name="rd" value="/">
+                    <button type="submit" class="button block is-primary">Sign in</button>
                 </form>
             </div>
         </div>
