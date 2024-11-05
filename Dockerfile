@@ -1,4 +1,13 @@
-FROM ghcr.io/getzola/zola:v0.17.1 as zola
+#FROM ghcr.io/getzola/zola:v0.17.1 as zola
+FROM rust:slim-bullseye AS zola
+
+RUN apt-get update -y && \
+  apt-get install -y make g++ libssl-dev
+
+WORKDIR /app
+COPY ./zola .
+
+RUN cargo build --release
 
 FROM rust:1.82-bullseye as builder
 WORKDIR /usr/src/connections
@@ -7,7 +16,7 @@ RUN cargo build --release
 
 FROM debian:bullseye-slim
 COPY --from=builder /usr/src/connections/target/release/connections /usr/local/bin/connections
-COPY --from=zola /bin/zola /bin/zola
+COPY --from=zola /app/target/release/zola /bin/zola
 COPY ./ssg /usr/src/ssg
 
 ENV DEBIAN_FRONTEND=noninteractive
