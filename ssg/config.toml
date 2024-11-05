@@ -1,6 +1,6 @@
 # The URL the site will be built for
-#base_url = "https://reedconnections.org"
-base_url = "http://localhost:5111"
+base_url = "https://reedconnections.org"
+#base_url = "http://localhost:5111"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
