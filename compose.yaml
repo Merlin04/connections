@@ -1,0 +1,44 @@
+volumes:
+  www-volume:
+  mail-handler-state-volume:
+
+networks:
+  oauth2-proxy: {}
+
+services:
+  mail-handler:
+    build: .
+    volumes:
+      - www-volume:/usr/src/www
+      - mail-handler-state-volume:/usr/src/state
+    environment:
+      - NUMBER_FILE=/usr/src/state/number_file
+      - OUT_DIR=/usr/src/ssg/content/connections
+      - ZOLA_ROOT=/usr/src/ssg
+      - WWW_OUT_DIR=/usr/src/www/build
+    env_file: "mail-handler.env"
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.7.1
+    ports: []
+    hostname: oauth2-proxy
+    container_name: oauth2-proxy
+    command: --config /oauth2-proxy.cfg
+    env_file: "oauth2-proxy.env"
+    volumes:
+      - "./oauth2-proxy.cfg:/oauth2-proxy.cfg"
+    networks:
+      oauth2-proxy: { }
+  nginx:
+    depends_on:
+      - oauth2-proxy
+    container_name: nginx
+    image: docker.io/library/nginx:latest
+    restart: unless-stopped
+    ports:
+      - "5111:80/tcp"
+    hostname: nginx
+    volumes:
+      - "./nginx.conf:/etc/nginx/conf.d/default.conf"
+      - www-volume:/var/www/html
+    networks:
+      oauth2-proxy: { }

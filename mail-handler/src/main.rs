@@ -1,6 +1,23 @@
 use imap::types::{AttributeValue, UnsolicitedResponse};
 use mail_parser::MessageParser;
-use std::fs;
+use std::{fs, io};
+use std::io::Write;
+use std::process::Command;
+
+fn rebuild_zola() {
+    let output = Command::new("sh")
+        .arg("-c")
+        .arg(format!(
+            "zola -r {} build -o {} --force",
+            dotenv::var("ZOLA_ROOT").unwrap(),
+            dotenv::var("WWW_OUT_DIR").unwrap()
+        ))
+        .output()
+        .expect("failed to execute zola build");
+    io::stdout().write_all(&output. stdout).unwrap();
+    io::stderr().write_all(&output. stderr).unwrap();
+    println!("Wrote zola output to {}", dotenv::var("WWW_OUT_DIR").unwrap());
+}
 
 fn post_file_contents(
     number: u32,
@@ -27,9 +44,14 @@ authors = [\"{}\"]
 fn main() -> imap::error::Result<()> {
     dotenv::dotenv().ok();
 
+    rebuild_zola();
+
+    println!("Up!");
+
     let number_file = dotenv::var("NUMBER_FILE").unwrap();
     let mut use_number = {
-        let mut current_number = fs::read_to_string(&number_file)?
+        let mut current_number = fs::read_to_string(&number_file)
+            .unwrap_or("1".parse().unwrap())
             .replace("\n", "")
             .parse::<u32>()
             .unwrap();
@@ -123,6 +145,7 @@ fn main() -> imap::error::Result<()> {
                             contents,
                         )
                         .unwrap();
+                        rebuild_zola();
                     }
                 }
             }
