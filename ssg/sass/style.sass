@@ -27,8 +27,9 @@ body
 
 body
   font-family: "LibreCaslon"
+  color: text-color
 
-h1, h2, h3, h4, h2, h3, h4, h5
+h1, h2, h3, h4, h5, h6
   font-family: "STFU"
   text-align: center
   color: $strong-color
@@ -49,14 +50,24 @@ h5
   font-size: 1em
 
 .title
-  font-size: 50pt
-  margin-bottom: 1em
+  margin-bottom: 2em
+  margin-top: 0.5in
+
+  h1, h2, h3, h4, h5, h6
+    margin-bottom: 0em
+    margin-top: 0em
+    
+  h1
+    font-size: 4em
+
+.footer
+  text-align: center
+  margin-top: 2em
 
 .section
   padding: 0 0.75in 0 0.75in
   margin: auto
   max-width: 11in
-
 
 .fleuron
   margin: auto
@@ -67,26 +78,28 @@ h5
   img
     max-height: 100%
 
-.post
-  a
-    font-family: "STFU"
-    text-decoration: none
-    font-size: 1.5em
-    color: $strong-color
-       
-  a:hover
-    color: $accent-color
+a
+  color: $text-color
+  font-family: "STFU"
+  font-style: italic
+  text-decoration: underline
+  text-decoration-thickness: 2pt
 
+a:hover
+  color: $accent-color
+
+.number
+  a
+    font-size: 1.5em
+    font-style: normal
+
+
+.post 
   .by
     color: $weak-color
     font-style: italic
     font-size: 0.75em
     margin-top: 0
-
-  .dinkus
-    font-family: "STFU"
-    color: $strong-color
-    text-align: center
 
   h1
     font-size: 2em

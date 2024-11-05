@@ -6,3 +6,5 @@ template = "connections.html"
 page_template = "connection.html"
 paginate_by = 100
 +++
+
+##### [submission guidelines and other info](/about)

@@ -1,12 +1,10 @@
 {% extends "base.html" %} {% block content %}
-<div class="title"><h1>{{ page.date | safe }}</h1></div>
+<h1 class="title">{{ page.date | safe }}</h1>
 
-<article class="post">
+<article class="info">
   <span class="summary">{{ page.content | safe }}</span>
   <span class="by">
     <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
   </span>
 </article>
-<div class="footer"><a href="/connections"> return to the connections </a></div>
-
 {% endblock content %}
