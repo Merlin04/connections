@@ -26,6 +26,7 @@ services:
     env_file: "oauth2-proxy.env"
     volumes:
       - "./oauth2-proxy.cfg:/oauth2-proxy.cfg"
+      - "./oauth2-proxy-templates:/oauth2-proxy-templates"
     networks:
       oauth2-proxy: { }
   nginx:
