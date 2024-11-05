@@ -4,17 +4,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Sign In</title>
+    <title>Sign In - the Connections</title>
+    <link rel="preload" href="/fonts/LibreCaslonText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/LibreCaslonText-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/LibreCaslonText-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/STFU.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/style.css" />
     <style>
         body {
             height: 100vh;
         }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
         .sign-in-box {
             max-width: 400px;
             margin: 1.25rem auto;
-        }
-        .logo-box {
-            margin: 1.5rem 3rem;
         }
         .alert {
             padding: 5px;
@@ -34,57 +43,24 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        /* When moving the mouse over the close button */
         .closebtn:hover {
             color: black;
         }
-        footer a {
-            text-decoration: underline;
-        }
     </style>
 </head>
-<body class="has-background-light">
-<section class="section has-background-light">
-    <div class="box block sign-in-box has-text-centered">
-<!--        {{ if .LogoData }}-->
-<!--        <div class="block logo-box">-->
-<!--            {{.LogoData}}-->
-<!--        </div>-->
-<!--        {{ end }}-->
-        <h1>Reed Connections</h1>
+<body>
+<section>
+    <div class="sign-in-box">
+        <h1>the connections.</h1>
 
         <p>Sign in with your Reed Google account to access Reed Connections.</p>
 
+        <div class="fleuron"></div>
+
         <form method="GET" action="{{.ProxyPrefix}}/start">
             <input type="hidden" name="rd" value="{{.Redirect}}">
-            {{ if .SignInMessage }}
-            <p class="block">{{.SignInMessage}}</p>
-            {{ end}}
             <button type="submit" class="button block is-primary">Sign in with {{.ProviderName}}</button>
         </form>
-
-        {{ if .CustomLogin }}
-        <hr>
-
-        <form method="POST" action="{{.ProxyPrefix}}/sign_in" class="block">
-            <input type="hidden" name="rd" value="{{.Redirect}}">
-
-            <div class="field">
-                <label class="label" for="username">Username</label>
-                <div class="control">
-                    <input class="input" type="text" placeholder="e.g. userx@example.com"  name="username" id="username">
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label" for="password">Password</label>
-                <div class="control">
-                    <input class="input" type="password" placeholder="********" name="password" id="password">
-                </div>
-            </div>
-            <button class="button is-primary">Sign in</button>
-        </form>
-        {{ end }}
 
         {{ if eq .StatusCode 400 401 }}
         <div class="alert">
@@ -96,7 +72,6 @@
             {{ end }}
         </div>
         {{ end }}
-
     </div>
 </section>
 

@@ -5,58 +5,55 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{{.StatusCode}} {{.Title}}</title>
-<!--    <link rel="stylesheet" href="{{.ProxyPrefix}}/static/css/bulma.min.css">-->
-<!--    <link rel="stylesheet" href="{{.ProxyPrefix}}/static/css/all.min.css">-->
-
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            let cardToggles = document.getElementsByClassName('card-toggle');
-            for (let i = 0; i < cardToggles.length; i++) {
-                cardToggles[i].addEventListener('click', e => {
-                    e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                });
-            }
-        });
-    </script>
-
+    <link rel="preload" href="/fonts/LibreCaslonText-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/LibreCaslonText-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/LibreCaslonText-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/STFU.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/style.css" />
     <style>
         body {
             height: 100vh;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
         }
         .error-box {
             margin: 1.25rem auto;
             max-width: 600px;
         }
         .status-code {
-            font-size: 6rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
-        #more-info.card {
+        #more-info > div {
             border: 1px solid #f0f0f0;
+            padding: 0.5rem;
+            margin: 0.5rem;
+        }
+        h2 {
+            font-family: inherit;
         }
         footer a {
             text-decoration: underline;
         }
     </style>
 </head>
-<body class="has-background-light">
-<section class="section">
-    <div class="box block error-box has-text-centered">
-        <div class="status-code">{{.StatusCode}}</div>
-        <div class="block">
-            <h1 class="subtitle is-1">{{.Title}}</h1>
-        </div>
-        <p>You probably signed in with a non-Reed email address. Try signing in again with your Reed email.</p>
+<body>
+<section>
+    <div class="error-box">
+        <h1>the connections.</h1>
+        <h2>Failed to sign in</h2>
+        <p>This might be because you signed in with a non-Reed email address - if that's the case, try signing in again with your Reed Google account.</p>
 
-        {{ if or .Message .RequestID }}
-        <div id="more-info" class="block card is-fullwidth is-shadowless">
-            <header class="card-header is-shadowless">
-                <p class="card-header-title">More Info</p>
-                <a class="card-header-icon card-toggle">
-                    <i class="fa fa-angle-down"></i>
-                </a>
-            </header>
-            <div class="card-content has-text-left is-hidden">
+        <details id="more-info">
+            <summary>
+                Error details
+            </summary>
+            <div>
+                <div class="status-code">{{.StatusCode}} - {{.Title}}</div>
                 {{ if .Message }}
                 <div class="content">
                     {{.Message}}
@@ -68,22 +65,21 @@
                 </div>
                 {{ end }}
             </div>
-        </div>
-        {{ end }}
+        </details>
 
         {{ if .Redirect }}
-        <hr>
+        <div class="fleuron"></div>
 
-        <div class="columns">
-            <div class="column">
-                <form method="GET" action="{{.Redirect}}">
-                    <button type="submit" class="button is-danger is-fullwidth">Go back</button>
-                </form>
-            </div>
-            <div class="column">
+        <div>
+<!--            <div>-->
+<!--                <form method="GET" action="{{.Redirect}}">-->
+<!--                    <button type="submit" class="button is-danger is-fullwidth">Go back</button>-->
+<!--                </form>-->
+<!--            </div>-->
+            <div>
                 <form method="GET" action="{{.ProxyPrefix}}/sign_in">
                     <input type="hidden" name="rd" value="{{.Redirect}}">
-                    <button type="submit" class="button is-primary is-fullwidth">Sign in</button>
+                    <button type="submit" class="button">Sign in</button>
                 </form>
             </div>
         </div>
