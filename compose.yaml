@@ -11,6 +11,7 @@ services:
     volumes:
       - www-volume:/usr/src/www
       - mail-handler-state-volume:/usr/src/state
+      - "./ssg:/usr/src/ssg"
     environment:
       - NUMBER_FILE=/usr/src/state/number_file
       - OUT_DIR=/usr/src/ssg/content/connections

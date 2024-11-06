@@ -146,6 +146,8 @@ fn main() -> imap::error::Result<()> {
                         )
                         .unwrap();
                         rebuild_zola();
+                        inner_session.store(format!("{}", id), "+FLAGS (\\Deleted)").unwrap();
+                        inner_session.expunge().unwrap();
                     }
                 }
             }
