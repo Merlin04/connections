@@ -60,12 +60,16 @@ h5
   margin-bottom: 2em
   margin-top: 0.5in
 
-  h1, h2, h3, h4, h5, h6
-    margin-bottom: 0em
-    margin-top: 0em
+  h2, h3, h4, h5, h6
+    margin-bottom: 0.0em
+    margin-top: 0.0em
     
   h1
+    margin-bottom: 0em
     font-size: 4em
+
+  .fleuron
+    margin-bottom: 1em
 
 .footer
   text-align: center
@@ -95,6 +99,7 @@ a
   text-decoration-thickness: 2pt
 
 a:hover
+  transition: color 100ms ease-in-out
   color: $accent-color
 
 .number
@@ -132,12 +137,19 @@ a:hover
   // box-shadow: 0px 4px 7px -8px $shadow-color
   border-radius: 0.04in
 
-button
+button, .button
   border: none
   font-family: inherit
   padding: 1rem
   font-weight: bold
-  background-color: rgba(0,0,0,0.95)
-  color: white
+  background-color: $strong-color
+  color: $background-color
   cursor: pointer
   width: fit-content
+  font-style: normal
+  text-decoration: none
+  transition: background-color 100ms ease-in-out
+
+button:hover, .button:hover
+  color: $background-color
+  background-color: $accent-color

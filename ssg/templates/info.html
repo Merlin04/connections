@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% block content %}
-<h1 class="title">{{ page.date | safe }}</h1>
+<div class="title">
+  <h1>the connections.</h1>
+  <div class="fleuron"></div>
+</div>
 
 <article class="info">
   <span class="summary">{{ page.content | safe }}</span>
@@ -7,4 +10,8 @@
     <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
   </span>
 </article>
+<div class="fleuron"></div>
+<div class="footer">
+  <a class="button" href="/connections"> return to the connections </a>
+</div>
 {% endblock content %}
