@@ -7,7 +7,7 @@
 <div class="posts">
   {% for page in paginator.pages %}
   <article class="post">
-    <span class="summary">{{ page.summary | safe }}</span>
+    <span class="summary">{{ page.content | safe }}</span>
     <span class="by">
       <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
     </span>
