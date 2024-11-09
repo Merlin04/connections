@@ -1,8 +1,8 @@
 use imap::types::{AttributeValue, UnsolicitedResponse};
 use mail_parser::MessageParser;
-use std::{fs, io};
 use std::io::Write;
 use std::process::Command;
+use std::{fs, io};
 
 fn rebuild_zola() {
     let output = Command::new("sh")
@@ -14,9 +14,12 @@ fn rebuild_zola() {
         ))
         .output()
         .expect("failed to execute zola build");
-    io::stdout().write_all(&output. stdout).unwrap();
-    io::stderr().write_all(&output. stderr).unwrap();
-    println!("Wrote zola output to {}", dotenv::var("WWW_OUT_DIR").unwrap());
+    io::stdout().write_all(&output.stdout).unwrap();
+    io::stderr().write_all(&output.stderr).unwrap();
+    println!(
+        "Wrote zola output to {}",
+        dotenv::var("WWW_OUT_DIR").unwrap()
+    );
 }
 
 fn post_file_contents(
@@ -27,17 +30,14 @@ fn post_file_contents(
     html: &str,
 ) -> String {
     let date_fmt = format!("{}-{}-{}", date.year, date.month, date.day);
+    let author_fmt = if is_not_anon { from_addr } else { "anonymous" };
     format!(
         "+++
-title = \"{}\"
-date = \"{}\"
-authors = [\"{}\"]
+title = \"{number}\"
+date = \"{date_fmt}\"
+authors = [\"{author_fmt}\"]
 +++
-{}",
-        number,
-        date_fmt,
-        if is_not_anon { from_addr } else { "anonymous" },
-        html
+{{{ number(number=\"{number}\") }}}} {html}"
     )
 }
 
@@ -146,7 +146,9 @@ fn main() -> imap::error::Result<()> {
                         )
                         .unwrap();
                         rebuild_zola();
-                        inner_session.store(format!("{}", id), "+FLAGS (\\Deleted)").unwrap();
+                        inner_session
+                            .store(format!("{}", id), "+FLAGS (\\Deleted)")
+                            .unwrap();
                         inner_session.expunge().unwrap();
                     }
                 }
