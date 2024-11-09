@@ -35,23 +35,25 @@ body
 body
   font-family: "LibreCaslon"
   color: text-color
+  font-size: 12pt
 
 h1, h2, h3, h4, h5, h6
   font-family: "STFU"
   text-align: center
   color: $strong-color
 
-h1
-  font-size: 3em
 
-h2
+h1
   font-size: 2em
 
-h3
+h2
   font-size: 1.5em
 
+h3
+  font-size: 1.3em
+
 h4
-  font-size: 1.17em
+  font-size: 1.15em
 
 h5
   font-size: 1em
@@ -76,9 +78,9 @@ h5
   margin-top: 2em
 
 .section
-  padding: 0 0.75in 0 0.75in
+  padding: 0 0.5in 0 0.5in
   margin: auto
-  max-width: 11in
+  max-width: 8.5in
 
 .fleuron
   margin: auto
@@ -107,7 +109,6 @@ a:hover
     font-size: 1.5em
     font-style: normal
 
-
 .post 
   .by
     color: $weak-color
@@ -115,20 +116,6 @@ a:hover
     font-size: 0.75em
     margin-top: 0
 
-  h1
-    font-size: 2em
-  
-  h2
-    font-size: 1.5em
-  
-  h3
-    font-size: 1.3em
-  
-  h4
-    font-size: 1.15em
-  
-  h5
-    font-size: 1em
 
 
   padding: 0.5em 0.25in 0.5em 0.25in
@@ -136,6 +123,9 @@ a:hover
   margin-top: 1em
   // box-shadow: 0px 4px 7px -8px $shadow-color
   border-radius: 0.04in
+
+.footer
+  margin-bottom: 0.5in
 
 button, .button
   border: none
@@ -153,3 +143,10 @@ button, .button
 button:hover, .button:hover
   color: $background-color
   background-color: $accent-color
+
+@media (max-width: 480px)
+  .section
+    padding: 0 0.2in 0 0.2in
+    
+  .title h1
+    font-size: 2.5em
