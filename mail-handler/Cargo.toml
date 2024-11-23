@@ -5,6 +5,9 @@ edition = "2021"
 
 [dependencies]
 ammonia = "4.0.0"
+chrono = "0.4.38"
 dotenv = "0.15.0"
 imap = "3.0.0-alpha.14"
 mail-parser = "0.9.4"
+redis = "0.27.5"
+rocket = "0.5.1"

@@ -1,23 +1,36 @@
 volumes:
   www-volume:
-  mail-handler-state-volume:
+  listmonk-data:
+  redis-volume:
 
-networks:
-  oauth2-proxy: {}
+#networks:
+#  oauth2-proxy:
+#  listmonk:
+#  mail-handler:
+
+x-db-credentials: &listmonk-db-credentials
+  POSTGRES_USER: &listmonk-db-user listmonk
+  POSTGRES_PASSWORD: &listmonk-db-password listmonk
+  POSTGRES_DB: &listmonk-db-name listmonk
 
 services:
   mail-handler:
     build: .
+    hostname: mail-handler
     volumes:
       - www-volume:/usr/src/www
-      - mail-handler-state-volume:/usr/src/state
       - "./ssg:/usr/src/ssg"
+      - "./wip:/usr/src/wip"
     environment:
-      - NUMBER_FILE=/usr/src/state/number_file
+      - WIP_BATCH_DIR=/usr/src/wip
       - OUT_DIR=/usr/src/ssg/content/connections
       - ZOLA_ROOT=/usr/src/ssg
       - WWW_OUT_DIR=/usr/src/www/build
     env_file: "mail-handler.env"
+    depends_on:
+      - redis
+#    networks:
+#      mail-handler: {}
   oauth2-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.7.1
     ports: []
@@ -28,8 +41,20 @@ services:
     volumes:
       - "./oauth2-proxy.cfg:/oauth2-proxy.cfg"
       - "./oauth2-proxy-templates:/oauth2-proxy-templates"
-    networks:
-      oauth2-proxy: { }
+#    networks:
+#      oauth2-proxy: { }
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    hostname: redis
+    ports:
+      - "6379:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - redis-volume:/root/redis
+      - "./redis.conf:/usr/local/etc/redis/redis.conf"
+#    networks:
+#      mail-handler: {}
   nginx:
     depends_on:
       - oauth2-proxy
@@ -42,5 +67,52 @@ services:
     volumes:
       - "./nginx.conf:/etc/nginx/conf.d/default.conf"
       - www-volume:/var/www/html
-    networks:
-      oauth2-proxy: { }
+#    networks:
+#      oauth2-proxy: { }
+#  listmonk:
+#    image: listmonk/listmonk:latest
+#    container_name: listmonk_app
+#    restart: unless-stopped
+#    ports:
+#      - "9000:9000"
+#    networks:
+#      - listmonk
+#    depends_on:
+#      - listmonk-db
+#    hostname: listmonk
+#    command: [sh, -c, "./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''"]
+#    environment:
+#      LISTMONK_app__address: 0.0.0.0:9000
+#      LISTMONK_db__user: *listmonk-db-user
+#      LISTMONK_db__password: *listmonk-db-password
+#      LISTMONK_db__database: *listmonk-db-name
+#      LISTMONK_db__host: listmonk_db
+#      LISTMONK_db__port: 5432
+#      LISTMONK_db__ssl_mode: disable
+#      LISTMONK_db__max_open: 25
+#      LISTMONK_db__max_idle: 25
+#      LISTMONK_db__max_lifetime: 300s
+#      TZ: Etc/UTC
+#      LISTMONK_ADMIN_USER: ${LISTMONK_ADMIN_USER:-}           # If these (optional) are set during the first `docker compose up`, then the Super Admin user is automatically created.
+#      LISTMONK_ADMIN_PASSWORD: ${LISTMONK_ADMIN_PASSWORD:-}   # Otherwise, the user can be setup on the web app after the first visit to http://localhost:9000
+#    volumes:
+#      - ./uploads:/listmonk/uploads:rw
+#  listmonk-db:
+#    image: postgres:17-alpine
+#    container_name: listmonk_db
+#    restart: unless-stopped
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - listmonk
+#    environment:
+#      <<: *listmonk-db-credentials
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U listmonk" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 6
+#    volumes:
+#      - type: volume
+#        source: listmonk-data
+#        target: /var/lib/postgresql/data

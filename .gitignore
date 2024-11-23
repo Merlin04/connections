@@ -1,2 +1,4 @@
 *.env
 ssg/content/connections/[0-9]*.md
+
+./wip
