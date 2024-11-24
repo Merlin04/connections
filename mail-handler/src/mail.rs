@@ -3,29 +3,7 @@ use imap::types::{AttributeValue, UnsolicitedResponse};
 use mail_parser::MessageParser;
 use redis::Commands;
 use crate::consts::{CURRENT_NUMBER_KEY, IMAP_ADDR_VAR, IMAP_MAILBOX_NAME_VAR, IMAP_PASSWORD_VAR, IMAP_PORT_VAR, IMAP_USERNAME_VAR, NON_ANONYMOUS_ADDRESS_VAR, WIP_DIR_VAR};
-
-fn post_file_contents(
-    number: u32,
-    date: &mail_parser::DateTime,
-    from_addr: &str,
-    is_not_anon: bool,
-    html: &str,
-) -> String {
-    let date_fmt = format!("{}-{}-{}", date.year, date.month, date.day);
-    format!(
-        "+++
-title = \"{}\"
-date = \"{}\"
-authors = [\"{}\"]
-+++
-<b>{}: </b>{}",
-        number,
-        date_fmt,
-        if is_not_anon { from_addr } else { "anonymous" },
-        number,
-        html
-    )
-}
+use crate::utils;
 
 pub fn mail_loop(mut con: redis::Connection) -> imap::error::Result<()> {
     let mut use_number = {
@@ -108,7 +86,7 @@ pub fn mail_loop(mut con: redis::Connection) -> imap::error::Result<()> {
                         let html = ammonia::clean(message.body_html(0).unwrap().as_ref());
                         let date = message.date().unwrap();
                         let number = use_number();
-                        let contents = post_file_contents(
+                        let contents = utils::post_file_contents(
                             number,
                             date,
                             from_addr.as_ref(),

@@ -1,5 +1,15 @@
 {% extends "base.html" %} {% block content %}
-<h1 class="title">This is my blog made with Zola.</h1>
-<!-- If you are using pagination, section.pages will be empty.
-       You need to use the paginator object -->
+<div class="title">
+    <h1>{{ section.title }}</h1>
+    <div class="fleuron-flipped"></div>
+    {{section.content | safe}}
+</div>
+<ul class="batches">
+    {% for section in section.subsections %}
+    {% set s = get_section(path=section, metadata_only=true) %}
+    <li class="batch">
+        <a href="{{ s.permalink }}">{{ s.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock content %}

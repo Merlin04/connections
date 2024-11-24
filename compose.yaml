@@ -26,6 +26,8 @@ services:
       - OUT_DIR=/usr/src/ssg/content/connections
       - ZOLA_ROOT=/usr/src/ssg
       - WWW_OUT_DIR=/usr/src/www/build
+      - ROCKET_ADDRESS=0.0.0.0
+      - ROCKET_PORT=8000
     env_file: "mail-handler.env"
     depends_on:
       - redis
