@@ -4,6 +4,7 @@
     <div class="fleuron-flipped"></div>
     {{section.content | safe}}
 </div>
+<div id="subscribe-widget"></div>
 <ul class="batches">
     {% for section in section.subsections %}
     {% set s = get_section(path=section, metadata_only=true) %}

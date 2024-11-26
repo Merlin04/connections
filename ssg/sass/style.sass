@@ -154,6 +154,22 @@ button:hover, .button:hover
   color: $background-color
   background-color: $accent-color
 
+button:disabled
+  opacity: 0.7
+
+#subscribe-widget div
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 1rem
+  border: 2px solid $accent-color
+  width: fit-content
+  margin-left: auto
+  margin-right: auto
+
+#subscribe-widget p
+  margin-bottom: 0
+
 @media (max-width: 480px)
   .section
     padding: 0 0.2in 0 0.2in
