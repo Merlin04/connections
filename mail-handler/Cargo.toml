@@ -10,4 +10,6 @@ dotenv = "0.15.0"
 imap = "3.0.0-alpha.14"
 mail-parser = "0.9.4"
 redis = "0.27.5"
+reqwest = { version = "0.12.9", features = ["json"] }
 rocket = "0.5.1"
+serde = "1.0.215"
