@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="title">
   <h1>the connections.</h1>
-  <div class="fleuron-flipped"></div>
+  <div class="fleuron"></div>
 </div>
 
 <article class="info">
@@ -10,7 +10,7 @@
     <p>{% for author in page.authors %} {{ author }} {% endfor %}</p>
   </span>
 </article>
-<div class="fleuron"></div>
+<div class="fleuron-flipped"></div>
 <div class="footer">
   <a class="button" href="/connections"> return to the connections </a>
 </div>
